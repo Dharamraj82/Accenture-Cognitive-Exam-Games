@@ -1,8 +1,8 @@
 /**
  * ===================================================================
  * DIRECTIONAL DOORS & GRID MAZE - PROCEDURAL CORE ENGINE
- * Full game logic, dynamic random procedural maze generator with guaranteed
- * solvability, multi-key BFS pathfinder, Web Audio, and touch/keyboard controls.
+ * Dynamic procedural random maze generator with maximized walls & keys,
+ * guaranteed solvability, multi-key BFS pathfinder, Web Audio, and quick flow.
  * ===================================================================
  */
 
@@ -44,16 +44,16 @@
       const gain = this.ctx.createGain();
       osc.type = 'sine';
       osc.frequency.setValueAtTime(320, this.ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(480, this.ctx.currentTime + 0.06);
+      osc.frequency.exponentialRampToValueAtTime(480, this.ctx.currentTime + 0.05);
 
       gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.06);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.05);
 
       osc.connect(gain);
       gain.connect(this.ctx.destination);
 
       osc.start();
-      osc.stop(this.ctx.currentTime + 0.06);
+      osc.stop(this.ctx.currentTime + 0.05);
     }
 
     playKeyCollect() {
@@ -65,19 +65,19 @@
       notes.forEach((freq, index) => {
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-        const startTime = this.ctx.currentTime + index * 0.05;
+        const startTime = this.ctx.currentTime + index * 0.04;
 
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(freq, startTime);
 
         gain.gain.setValueAtTime(0.18, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.22);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.18);
 
         osc.connect(gain);
         gain.connect(this.ctx.destination);
 
         osc.start(startTime);
-        osc.stop(startTime + 0.22);
+        osc.stop(startTime + 0.18);
       });
     }
 
@@ -90,16 +90,16 @@
       const gain = this.ctx.createGain();
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(140, this.ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(60, this.ctx.currentTime + 0.28);
+      osc.frequency.exponentialRampToValueAtTime(60, this.ctx.currentTime + 0.22);
 
       gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.28);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.22);
 
       osc.connect(gain);
       gain.connect(this.ctx.destination);
 
       osc.start();
-      osc.stop(this.ctx.currentTime + 0.28);
+      osc.stop(this.ctx.currentTime + 0.22);
     }
 
     playDoorUnlock() {
@@ -111,19 +111,19 @@
       notes.forEach((freq, index) => {
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-        const startTime = this.ctx.currentTime + index * 0.08;
+        const startTime = this.ctx.currentTime + index * 0.06;
 
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, startTime);
 
         gain.gain.setValueAtTime(0.2, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.4);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.35);
 
         osc.connect(gain);
         gain.connect(this.ctx.destination);
 
         osc.start(startTime);
-        osc.stop(startTime + 0.4);
+        osc.stop(startTime + 0.35);
       });
     }
 
@@ -140,13 +140,13 @@
         osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
 
         gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.8);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.6);
 
         osc.connect(gain);
         gain.connect(this.ctx.destination);
 
         osc.start();
-        osc.stop(this.ctx.currentTime + 0.8);
+        osc.stop(this.ctx.currentTime + 0.6);
       });
     }
 
@@ -159,19 +159,19 @@
       notes.forEach((freq, idx) => {
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-        const startTime = this.ctx.currentTime + idx * 0.1;
+        const startTime = this.ctx.currentTime + idx * 0.08;
 
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, startTime);
 
         gain.gain.setValueAtTime(0.18, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.18);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.15);
 
         osc.connect(gain);
         gain.connect(this.ctx.destination);
 
         osc.start(startTime);
-        osc.stop(startTime + 0.18);
+        osc.stop(startTime + 0.15);
       });
     }
 
@@ -185,31 +185,31 @@
       osc.type = 'sine';
       osc.frequency.setValueAtTime(800, this.ctx.currentTime);
 
-      gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
+      gain.gain.setValueAtTime(0.05, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.03);
 
       osc.connect(gain);
       gain.connect(this.ctx.destination);
 
       osc.start();
-      osc.stop(this.ctx.currentTime + 0.04);
+      osc.stop(this.ctx.currentTime + 0.03);
     }
   }
 
   const sound = new SoundEngine();
 
   // -------------------------------------------------------------
-  // STAGE CONFIGURATIONS (8 Progressive Difficulty Tiers)
+  // STAGE CONFIGURATIONS (8 Progressive Stages with Dynamic Keys & Max Walls)
   // -------------------------------------------------------------
   const STAGES = [
-    { id: 1, name: "Stage 1 (3x3)", size: 3, keys: 1, timeLimit: 25, wallRatio: 0.15 },
-    { id: 2, name: "Stage 2 (3x3)", size: 3, keys: 2, timeLimit: 25, wallRatio: 0.18 },
-    { id: 3, name: "Stage 3 (4x4)", size: 4, keys: 2, timeLimit: 30, wallRatio: 0.20 },
-    { id: 4, name: "Stage 4 (4x4)", size: 4, keys: 3, timeLimit: 35, wallRatio: 0.22 },
-    { id: 5, name: "Stage 5 (5x5)", size: 5, keys: 2, timeLimit: 40, wallRatio: 0.24 },
-    { id: 6, name: "Stage 6 (6x6)", size: 6, keys: 3, timeLimit: 45, wallRatio: 0.25 },
-    { id: 7, name: "Stage 7 (7x7)", size: 7, keys: 3, timeLimit: 55, wallRatio: 0.26 },
-    { id: 8, name: "Stage 8 (8x8)", size: 8, keys: 4, timeLimit: 65, wallRatio: 0.28 }
+    { id: 1, name: "Stage 1 (3x3)", size: 3, minKeys: 2, maxKeys: 2, timeLimit: 25, minWall: 0.18, maxWall: 0.25 },
+    { id: 2, name: "Stage 2 (3x3)", size: 3, minKeys: 2, maxKeys: 3, timeLimit: 25, minWall: 0.20, maxWall: 0.28 },
+    { id: 3, name: "Stage 3 (4x4)", size: 4, minKeys: 3, maxKeys: 4, timeLimit: 30, minWall: 0.24, maxWall: 0.32 },
+    { id: 4, name: "Stage 4 (4x4)", size: 4, minKeys: 3, maxKeys: 4, timeLimit: 35, minWall: 0.26, maxWall: 0.34 },
+    { id: 5, name: "Stage 5 (5x5)", size: 5, minKeys: 3, maxKeys: 4, timeLimit: 40, minWall: 0.28, maxWall: 0.35 },
+    { id: 6, name: "Stage 6 (6x6)", size: 6, minKeys: 3, maxKeys: 4, timeLimit: 50, minWall: 0.28, maxWall: 0.36 },
+    { id: 7, name: "Stage 7 (7x7)", size: 7, minKeys: 4, maxKeys: 4, timeLimit: 60, minWall: 0.30, maxWall: 0.38 },
+    { id: 8, name: "Stage 8 (8x8)", size: 8, minKeys: 4, maxKeys: 4, timeLimit: 70, minWall: 0.30, maxWall: 0.40 }
   ];
 
   // -------------------------------------------------------------
@@ -218,15 +218,16 @@
   function generateProceduralLevel(stageIndex) {
     const config = STAGES[stageIndex] || STAGES[0];
     const size = config.size;
-    const numKeys = config.keys;
 
-    // Helper: random integer in [0, max - 1]
     const randInt = (max) => Math.floor(Math.random() * max);
+
+    // Key count strictly between minKeys and maxKeys (capped at max 4 keys)
+    const numKeys = Math.min(4, randInt(config.maxKeys - config.minKeys + 1) + config.minKeys);
 
     // 1. Pick Start position
     const start = { r: randInt(size), c: randInt(size) };
 
-    // 2. Pick Door position (at least Manhattan distance floor(size * 0.8) away)
+    // 2. Pick Door position (at least Manhattan distance floor(size * 0.75) away)
     let door = null;
     let attempts = 0;
     while (!door && attempts < 100) {
@@ -242,19 +243,55 @@
       door = { r: (start.r + size - 1) % size, c: (start.c + size - 1) % size };
     }
 
-    // 3. Pick Keys
+    // 3. Dispersed Key Placement (Keys spread across distinct quadrants & detours)
     const keys = [];
     const occupied = new Set([`${start.r},${start.c}`, `${door.r},${door.c}`]);
 
-    let keyAttempts = 0;
-    while (keys.length < numKeys && keyAttempts < 200) {
-      keyAttempts++;
-      const r = randInt(size);
-      const c = randInt(size);
-      const keyStr = `${r},${c}`;
-      if (!occupied.has(keyStr)) {
-        occupied.add(keyStr);
-        keys.push({ r, c });
+    for (let k = 0; k < numKeys; k++) {
+      let bestCell = null;
+      let maxMinDist = -1;
+
+      for (let attempt = 0; attempt < 80; attempt++) {
+        const r = randInt(size);
+        const c = randInt(size);
+        const keyStr = `${r},${c}`;
+        if (occupied.has(keyStr)) continue;
+
+        const dStart = Math.abs(r - start.r) + Math.abs(c - start.c);
+        const dDoor = Math.abs(r - door.r) + Math.abs(c - door.c);
+        if (dStart < 2 || dDoor < 2) continue;
+
+        let dKeys = 999;
+        for (const existingKey of keys) {
+          const d = Math.abs(r - existingKey.r) + Math.abs(c - existingKey.c);
+          if (d < dKeys) dKeys = d;
+        }
+        if (dKeys < 2) continue; // Prevent adjacent / same path clusters
+
+        const minDistanceScore = Math.min(dStart, dDoor, dKeys);
+        if (minDistanceScore > maxMinDist) {
+          maxMinDist = minDistanceScore;
+          bestCell = { r, c };
+        }
+      }
+
+      // Fallback if strict spacing exhausted
+      if (!bestCell) {
+        for (let r = 0; r < size; r++) {
+          for (let c = 0; c < size; c++) {
+            const keyStr = `${r},${c}`;
+            if (!occupied.has(keyStr)) {
+              bestCell = { r, c };
+              break;
+            }
+          }
+          if (bestCell) break;
+        }
+      }
+
+      if (bestCell) {
+        occupied.add(`${bestCell.r},${bestCell.c}`);
+        keys.push(bestCell);
       }
     }
 
@@ -275,8 +312,9 @@
       [candidateCells[i], candidateCells[j]] = [candidateCells[j], candidateCells[i]];
     }
 
-    // 5. Intelligent wall placement with BFS solvability check
-    const targetWallCount = Math.floor(size * size * config.wallRatio);
+    // 5. Place maximum amount of walls with BFS solvability guarantee
+    const wallRatio = config.minWall + Math.random() * (config.maxWall - config.minWall);
+    const targetWallCount = Math.floor(size * size * wallRatio);
     const walls = [];
 
     const tempLevel = { size, start, door, keys, walls };
@@ -284,14 +322,12 @@
     for (const cell of candidateCells) {
       if (walls.length >= targetWallCount) break;
 
-      // Temporarily add wall
       walls.push(cell);
 
-      // Verify that start -> all keys -> door is still 100% solvable
+      // Verify start -> all keys -> door is still 100% solvable
       const testPath = solveBFSFullPath(start, keys, door, tempLevel);
       if (!testPath || testPath.length === 0) {
-        // Disconnected the puzzle! Remove this wall
-        walls.pop();
+        walls.pop(); // Disconnected puzzle! Discard wall
       }
     }
 
@@ -325,7 +361,7 @@
     isTransitioning: false,
     showingSolution: false,
     solutionPath: [],
-    revealedWalls: new Set(),
+    flashedWall: null,
     completedStages: new Set()
   };
 
@@ -419,7 +455,7 @@
     state.isTransitioning = false;
     state.showingSolution = false;
     state.solutionPath = [];
-    state.revealedWalls.clear();
+    state.flashedWall = null;
     state.timeRemaining = level.timeLimit;
     state.levelStartTime = Date.now();
 
@@ -483,13 +519,13 @@
     state.isTransitioning = true;
     sound.playTimeout();
 
-    showAlert("⏳", "Time's Up! Moving to Next Stage...");
+    showAlert("⏳", "Time's Up! Advancing...");
 
     setTimeout(() => {
       hideAlert();
       const nextIndex = (state.currentStageIndex + 1) % STAGES.length;
       loadStage(nextIndex, true);
-    }, 1400);
+    }, 800);
   }
 
   // -------------------------------------------------------------
@@ -537,10 +573,9 @@
         else if (isKeyAt(r, c)) {
           tile.innerHTML = `<span class="key-icon">🔑</span>`;
         }
-        // Check if wall was recently revealed
-        else if (state.revealedWalls.has(`${r},${c}`)) {
-          tile.classList.add('wall-revealed');
-          tile.innerHTML = `<span class="wall-icon">🧱</span>`;
+        // Flashed invisible wall shock (hides immediately after collision)
+        else if (state.flashedWall && state.flashedWall.r === r && state.flashedWall.c === c) {
+          tile.classList.add('wall-flashed');
         }
 
         // Check if part of solution path
@@ -613,8 +648,6 @@
       if (state.remainingKeys.length === 0) {
         state.isDoorUnlocked = true;
         sound.playDoorUnlock();
-        showAlert("🔓", "All keys collected! Door is unlocked!");
-        setTimeout(hideAlert, 1200);
       }
     }
 
@@ -623,9 +656,6 @@
       if (state.remainingKeys.length === 0) {
         handleLevelComplete();
         return;
-      } else {
-        showAlert("🔒", `Collect all keys first! (${state.remainingKeys.length} left)`);
-        setTimeout(hideAlert, 1200);
       }
     }
 
@@ -638,38 +668,40 @@
   }
 
   function handleWallCollision(wr, wc) {
+    if (state.isTransitioning) return;
+    state.isTransitioning = true;
     sound.playWallHit();
     state.moves++;
     elements.hudMovesCount.textContent = state.moves;
 
-    // Reveal wall
-    state.revealedWalls.add(`${wr},${wc}`);
+    // Flash hit wall tile briefly
+    state.flashedWall = { r: wr, c: wc };
     renderBoard();
 
-    showAlert("💥", "Invisible Wall Hit! Resetting to Start...");
-    state.isTransitioning = true;
-
+    // Reset player position and reset collected keys back to the board
     setTimeout(() => {
-      // Teleport back to start point
       state.playerPos = { ...state.currentLevel.start };
+      state.remainingKeys = state.currentLevel.keys.map(k => ({ ...k }));
+      elements.hudKeysCount.textContent = state.remainingKeys.length;
+      state.isDoorUnlocked = false;
+      state.flashedWall = null; // Wall hides again so user must remember path!
       state.isTransitioning = false;
-      hideAlert();
       renderBoard();
-    }, 600);
+    }, 220);
   }
 
   function handleTileClick(targetR, targetC) {
     const dr = targetR - state.playerPos.r;
     const dc = targetC - state.playerPos.c;
 
-    // Only allow adjacent cardinal steps
+    // Adjacent cardinal steps
     if (Math.abs(dr) + Math.abs(dc) === 1) {
       movePlayer(dr, dc);
     }
   }
 
   // -------------------------------------------------------------
-  // LEVEL VICTORY & COMPLETION
+  // LEVEL VICTORY & COMPLETION (Quick & Snappy Flow)
   // -------------------------------------------------------------
   function handleLevelComplete() {
     if (state.isLevelCompleted) return;
@@ -682,31 +714,22 @@
     sound.playVictory();
     triggerConfetti();
 
-    const timeSpent = Math.max(1, Math.round((Date.now() - state.levelStartTime) / 1000));
-    elements.statTime.textContent = `${timeSpent}s`;
-    elements.statMoves.textContent = state.moves;
-
-    const level = state.currentLevel;
-    const optimalMoves = (level.size * 2) + (level.keys.length * 2);
-    let stars = "⭐⭐⭐";
-    if (state.moves > optimalMoves * 2 || timeSpent > level.timeLimit * 0.75) {
-      stars = "⭐⭐";
-    }
-    if (state.moves > optimalMoves * 3 || timeSpent > level.timeLimit * 0.9) {
-      stars = "⭐";
-    }
-    elements.statStars.textContent = stars;
-
-    renderBoard();
-
     const isGameComplete = state.currentStageIndex === STAGES.length - 1;
-    setTimeout(() => {
-      if (isGameComplete) {
+
+    if (isGameComplete) {
+      renderBoard();
+      setTimeout(() => {
         elements.modalGameComplete.classList.remove('hidden');
-      } else {
-        elements.modalVictory.classList.remove('hidden');
-      }
-    }, 400);
+      }, 300);
+    } else {
+      // Quick, ultra-smooth celebration and auto-advance to next stage
+      showAlert("✨", "Stage Completed! Next Stage...");
+      renderBoard();
+      setTimeout(() => {
+        hideAlert();
+        loadStage(state.currentStageIndex + 1, true);
+      }, 650);
+    }
   }
 
   // -------------------------------------------------------------
@@ -730,7 +753,7 @@
       renderBoard();
     } else {
       showAlert("⚠️", "No accessible path found!");
-      setTimeout(hideAlert, 1500);
+      setTimeout(hideAlert, 1200);
     }
   }
 
@@ -784,7 +807,7 @@
       const current = path[path.length - 1];
 
       if (current.r === target.r && current.c === target.c) {
-        return path.slice(1); // Exclude starting point
+        return path.slice(1);
       }
 
       for (const d of dirs) {
@@ -973,7 +996,7 @@
       confettiParticles.forEach(p => {
         p.x += p.vx;
         p.y += p.vy;
-        p.vy += 0.35; // Gravity
+        p.vy += 0.35;
         p.rotation += p.rotationSpeed;
         p.opacity -= 0.012;
 
@@ -999,6 +1022,5 @@
     animate();
   }
 
-  // Boot on DOM ready
   document.addEventListener('DOMContentLoaded', initGame);
 })();
