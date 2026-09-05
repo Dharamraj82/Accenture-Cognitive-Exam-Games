@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Directional Doors & Grid Maze - Accenture Cognitive Assessment</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Global Header -->
+    <header class="accenture-header">
+      <div class="header-left">
+        <span class="accenture-logo">accenture</span>
+        <span class="header-divider">|</span>
+        <span class="exam-title">Cognitive Assessment: Directional Doors & Grid Maze</span>
+      </div>
+      <div class="header-right">
+        <a href="../index.html" class="btn-nav" title="Back to Games Portal">
+          <span class="nav-icon">🏠</span> Home
+        </a>
+        <button id="btn-sound" class="btn-icon-top" title="Toggle Sound (M)" aria-label="Sound Toggle">
+          <span id="sound-icon">🔊</span>
+        </button>
+        <button id="btn-instructions" class="btn-icon-top" title="How to play" aria-label="Instructions">
+          <span>❓</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Level Selection Tabs -->
+    <nav class="level-nav" aria-label="Level Select">
+      <div class="level-buttons-container" id="level-buttons">
+        <!-- Generated dynamically via JS -->
+      </div>
+    </nav>
+
+    <!-- Subtitle / Status Banner -->
+    <div class="instructions-banner">
+      <p id="status-banner-text">
+        Memorize invisible walls, collect all <strong>🔑 Keys</strong>, and reach the <strong>🚪 Exit Door</strong> before time runs out!
+      </p>
+    </div>
+
+    <!-- Game HUD: Level Info, Keys Left, Timer, Moves -->
+    <section class="game-hud">
+      <div class="hud-card level-info-card">
+        <span class="hud-label">Current Stage</span>
+        <h2 id="hud-level-title" class="hud-value">Level 1 (3x3)</h2>
+      </div>
+
+      <div class="hud-card keys-card" id="hud-keys-card">
+        <span class="hud-label">Keys Left</span>
+        <div class="hud-value keys-value">
+          <span id="hud-keys-count">1</span>
+          <span class="key-icon-hud">🔑</span>
+        </div>
+      </div>
+
+      <div class="hud-card timer-card" id="hud-timer-card">
+        <span class="hud-label">Time Remaining</span>
+        <div class="timer-display">
+          <svg class="timer-ring-svg" viewBox="0 0 36 36">
+            <path class="timer-ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path id="timer-ring-progress" class="timer-ring-progress" stroke-dasharray="100, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+          </svg>
+          <span id="hud-timer-text" class="timer-text">25s</span>
+        </div>
+      </div>
+
+      <div class="hud-card stats-card">
+        <span class="hud-label">Moves</span>
+        <span id="hud-moves-count" class="hud-value">0</span>
+      </div>
+    </section>
+
+    <!-- Main Game Board Canvas Container -->
+    <main class="board-wrapper">
+      <div class="board-container" id="board-container">
+        <div class="grid-board" id="grid-board">
+          <!-- Grid Cells dynamically rendered here -->
+        </div>
+
+        <!-- In-board Toast / Alert Overlay -->
+        <div id="board-alert" class="board-alert hidden">
+          <div class="alert-content">
+            <span id="alert-icon" class="alert-icon">⏳</span>
+            <span id="alert-msg" class="alert-msg">Time's Up! Moving to next level...</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Controls & Action Buttons -->
+    <section class="game-controls">
+      <div class="action-buttons">
+        <button id="btn-reset" class="btn btn-primary" title="Reset Level (R)">
+          <span class="btn-icon">🔄</span> Reset Level
+        </button>
+        <button id="btn-solution" class="btn btn-success" title="Show or hide solution path (H)">
+          <span class="btn-icon">💡</span> <span id="solution-btn-text">Show Solution Path</span>
+        </button>
+      </div>
+
+      <!-- Mobile Touch D-Pad Controls -->
+      <div class="dpad-container" id="dpad-container">
+        <div class="dpad">
+          <button class="dpad-btn dpad-up" data-dir="up" aria-label="Move Up">▲</button>
+          <div class="dpad-middle">
+            <button class="dpad-btn dpad-left" data-dir="left" aria-label="Move Left">◀</button>
+            <div class="dpad-center"></div>
+            <button class="dpad-btn dpad-right" data-dir="right" aria-label="Move Right">▶</button>
+          </div>
+          <button class="dpad-btn dpad-down" data-dir="down" aria-label="Move Down">▼</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Level Complete / Victory Modal -->
+    <div id="modal-victory" class="modal-overlay hidden">
+      <div class="modal-card victory-card">
+        <div class="victory-header">
+          <div class="trophy-badge">🏆</div>
+          <h2 class="victory-title" id="victory-title">Level Completed!</h2>
+          <p class="victory-subtitle" id="victory-subtitle">Awesome memory and navigation skills!</p>
+        </div>
+
+        <div class="victory-stats">
+          <div class="stat-item">
+            <span class="stat-label">Time Taken</span>
+            <span class="stat-val" id="stat-time">12s</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Moves Used</span>
+            <span class="stat-val" id="stat-moves">14</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Rating</span>
+            <span class="stat-val rating-stars" id="stat-stars">⭐⭐⭐</span>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button id="btn-replay-level" class="btn btn-secondary">Replay Stage</button>
+          <button id="btn-next-level" class="btn btn-success">Next Stage ➔</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instructions Modal -->
+    <div id="modal-instructions" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2>How to Play Directional Doors & Grid Maze</h2>
+          <button id="btn-close-instructions" class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body instructions-body">
+          <div class="instruction-row">
+            <div class="instruction-badge">👤</div>
+            <p><strong>Move the Player:</strong> Use <b>Arrow Keys</b>, <b>W A S D</b>, click adjacent cells, or use the on-screen D-Pad.</p>
+          </div>
+          <div class="instruction-row">
+            <div class="instruction-badge">🔑</div>
+            <p><strong>Collect All Keys:</strong> You must grab every key on the board before the exit door unlocks.</p>
+          </div>
+          <div class="instruction-row">
+            <div class="instruction-badge">🚪</div>
+            <p><strong>Reach the Door:</strong> Once all keys are collected, step onto the door to finish the stage!</p>
+          </div>
+          <div class="instruction-row">
+            <div class="instruction-badge">🧱</div>
+            <p><strong>Beware of Invisible Walls:</strong> Hidden obstacles block certain paths. Colliding with one reveals it briefly and resets you back to start!</p>
+          </div>
+          <div class="instruction-row">
+            <div class="instruction-badge">🎲</div>
+            <p><strong>Full Procedural Randomness:</strong> Every stage generates a fresh, unique, solvable layout every time you play.</p>
+          </div>
+          <div class="instruction-row">
+            <div class="instruction-badge">💡</div>
+            <p><strong>Solution Helper:</strong> Stuck? Click <b>Show Solution Path</b> to view the optimal BFS route.</p>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button id="btn-got-it" class="btn btn-primary" style="width:100%;">Got it, let's play!</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Finished / All Levels Done Modal -->
+    <div id="modal-game-complete" class="modal-overlay hidden">
+      <div class="modal-card victory-card">
+        <div class="victory-header">
+          <div class="trophy-badge gold-trophy">👑</div>
+          <h2 class="victory-title">Maze Master!</h2>
+          <p class="victory-subtitle">Congratulations! You have conquered all assessment stages!</p>
+        </div>
+        <div class="modal-actions">
+          <button id="btn-restart-game" class="btn btn-primary" style="width: 100%;">Play Again with New Random Mazes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Synchronized Developer Footer -->
+    <footer class="game-footer">
+      <div class="dev-badge">
+        <span>👨‍💻</span> Developer: <a href="https://github.com/Dharamraj82" target="_blank" rel="noopener noreferrer">Dharamraj Pd Yadav</a>
+      </div>
+      <p class="contribute-note">💡 Suggest new changes & create your pull request on <a href="https://github.com/Dharamraj82" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+    </footer>
+
+    <!-- Canvas for Victory Confetti -->
+    <canvas id="confetti-canvas"></canvas>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

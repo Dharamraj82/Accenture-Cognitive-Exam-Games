@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Pathfinder Logic (Duran Mage) - Accenture Cognitive Assessment</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="assessment-container">
+    <!-- Top Global Header -->
+    <header class="accenture-header">
+      <div class="header-left">
+        <span class="accenture-logo">accenture</span>
+        <span class="header-divider">|</span>
+        <span class="exam-title">Cognitive Assessment: Pathfinder Logic (Duran Mage)</span>
+      </div>
+      <div class="header-right">
+        <a href="../index.html" class="btn-nav" title="Back to Games Portal">
+          <span class="nav-icon">🏠</span> Home
+        </a>
+        <button id="btn-sound" class="btn-icon-top" title="Toggle Sound (M)" aria-label="Sound Toggle">
+          <span id="sound-icon">🔊</span>
+        </button>
+        <button id="btn-help" class="btn-icon-top" title="How to play" aria-label="Help">
+          <span>❓</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Level Selection Tabs -->
+    <nav class="level-nav">
+      <div class="level-pills" id="level-pills">
+        <!-- Dynamically injected via JS -->
+      </div>
+    </nav>
+
+    <!-- Instructions / Status Subtitle Banner -->
+    <div class="instructions-banner">
+      <p id="status-text">
+        Click pipe segments to <strong>rotate them (90°)</strong>. Build an unbroken circuit from the <strong>Rocket 🚀</strong> to <strong>Earth 🌍</strong>!
+      </p>
+    </div>
+
+    <!-- Main Game Board Canvas Container -->
+    <main class="game-board-section">
+      <div class="board-frame" id="board-frame">
+        <!-- Rocket Flying Animation Layer -->
+        <div id="flying-rocket" class="flying-rocket hidden">🚀</div>
+
+        <!-- Grid Container for Pipe Segments -->
+        <div class="pipe-grid" id="pipe-grid">
+          <!-- Dynamically populated pipe cells -->
+        </div>
+
+        <!-- In-Board Notification Alert Overlay -->
+        <div id="board-toast" class="board-toast hidden">
+          <span id="toast-icon">✨</span>
+          <span id="toast-msg">Path Connected! Ready to Launch!</span>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Action & Control Toolbar -->
+    <section class="bottom-toolbar">
+      <!-- Timer & Rotations Badge -->
+      <div class="stats-group">
+        <div class="timer-badge" id="timer-badge">
+          <span class="timer-icon">⏱️</span>
+          <span id="timer-text" class="timer-val">03:00</span>
+        </div>
+        <div class="moves-badge">
+          <span class="moves-label">Rotations:</span>
+          <span id="moves-count" class="moves-val">0</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="toolbar-buttons">
+        <button id="btn-reset" class="action-btn" title="Reset Level (R)">
+          <span class="btn-icon">🔄</span> Reset Level
+        </button>
+
+        <button id="btn-hint" class="action-btn btn-hint" title="Align Next Pipe (H)">
+          <span class="btn-icon">💡</span> Hint
+        </button>
+
+        <button id="btn-launch" class="action-btn btn-launch-action" title="Launch Rocket (Space / Enter)">
+          <span class="btn-icon">🚀</span> Launch Rocket
+        </button>
+      </div>
+    </section>
+
+    <!-- Victory Modal -->
+    <div id="modal-victory" class="modal-backdrop hidden">
+      <div class="modal-box">
+        <div class="modal-icon">🌍✨</div>
+        <h2 class="modal-title">Mission Successful!</h2>
+        <p class="modal-sub">Rocket safely navigated through the connected circuit to Earth!</p>
+        
+        <div class="modal-metrics">
+          <div class="metric-col">
+            <span class="metric-label">Time Taken</span>
+            <span class="metric-val" id="metric-time">22s</span>
+          </div>
+          <div class="metric-col">
+            <span class="metric-label">Rotations</span>
+            <span class="metric-val" id="metric-moves">14</span>
+          </div>
+          <div class="metric-col">
+            <span class="metric-label">Rating</span>
+            <span class="metric-val" id="metric-rating">⭐⭐⭐</span>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button id="btn-replay" class="modal-btn btn-sec">Replay Stage</button>
+          <button id="btn-next" class="modal-btn btn-pri">Next Stage ➔</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instructions / Help Modal -->
+    <div id="modal-help" class="modal-backdrop hidden">
+      <div class="modal-box instructions-box">
+        <div class="modal-top">
+          <h2>Pathfinder Logic (Duran Mage) Rules</h2>
+          <button id="btn-close-help" class="close-x">&times;</button>
+        </div>
+        <div class="instructions-content">
+          <div class="inst-item">
+            <div class="inst-icon">🔄</div>
+            <div>
+              <strong>Rotate Tiles:</strong> Click on any pipe tile to rotate it 90 degrees clockwise.
+            </div>
+          </div>
+          <div class="inst-item">
+            <div class="inst-icon">⚡</div>
+            <div>
+              <strong>Power Flow:</strong> Pipe segments connected to the <b>Rocket 🚀</b> light up with vibrant electric blue energy.
+            </div>
+          </div>
+          <div class="inst-item">
+            <div class="inst-icon">🎲</div>
+            <div>
+              <strong>Procedural Randomness:</strong> Every stage generates an entirely random, guaranteed solvable circuit every time.
+            </div>
+          </div>
+          <div class="inst-item">
+            <div class="inst-icon">🌍</div>
+            <div>
+              <strong>Objective:</strong> Form a continuous, unbroken path connecting the <b>Rocket 🚀</b> to <b>Earth 🌍</b>.
+            </div>
+          </div>
+          <div class="inst-item">
+            <div class="inst-icon">🚀</div>
+            <div>
+              <strong>Launch:</strong> Once the route is fully connected, click <b>Launch Rocket</b> to fly to Earth and complete the level!
+            </div>
+          </div>
+        </div>
+        <button id="btn-got-help" class="modal-btn btn-pri" style="width: 100%;">Start Mission</button>
+      </div>
+    </div>
+
+    <!-- Synchronized Developer Footer -->
+    <footer class="game-footer">
+      <div class="dev-badge">
+        <span>👨‍💻</span> Developer: <a href="https://github.com/Dharamraj82" target="_blank" rel="noopener noreferrer">Dharamraj Pd Yadav</a>
+      </div>
+      <p class="contribute-note">💡 Suggest new changes & create your pull request on <a href="https://github.com/Dharamraj82" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+    </footer>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accenture Cognitive Exam Prep Games</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #cbd5e1;
+      --primary: #0070f3;
+      --primary-hover: #0051b3;
+      --text-main: #000000;
+      --text-muted: #475569;
+      --font: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1040px;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    /* Crisp White Header Badge with subtle corners & shadow */
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: #ffffff;
+      color: #000000;
+      border: 1px solid var(--border);
+      padding: 0.45rem 1rem;
+      border-radius: 4px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4.5vw, 2.75rem);
+      font-weight: 800;
+      color: #000000;
+      letter-spacing: -0.03em;
+    }
+
+    /* 3-Card Grid View */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    /* Clean White Game Card (Subtle Corners) */
+    .game-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2.25rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 2rem;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .game-card:hover {
+      transform: translateY(-4px);
+      border-color: #0f172a;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.2rem;
+    }
+
+    .icon-box {
+      width: 72px;
+      height: 72px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.3rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease;
+    }
+
+    .game-card:hover .icon-box {
+      transform: scale(1.06);
+    }
+
+    .card-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .category-badge {
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #475569;
+    }
+
+    .game-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #000000;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    /* Action Button (Subtle Corners) */
+    .btn-play {
+      background: #0070f3;
+      color: #ffffff;
+      padding: 0.85rem 1.25rem;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0, 112, 243, 0.2);
+    }
+
+    .game-card:hover .btn-play {
+      background: #0051b3;
+      box-shadow: 0 4px 12px rgba(0, 112, 243, 0.35);
+    }
+
+    /* Developer Signature & Contribution Footer */
+    footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .dev-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      padding: 0.55rem 1.25rem;
+      border-radius: 6px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #000000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .dev-badge a {
+      color: #0070f3;
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .dev-badge a:hover {
+      text-decoration: underline;
+    }
+
+    .contribute-note {
+      font-size: 0.88rem;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .contribute-note a {
+      color: #0070f3;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .contribute-note a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      .games-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="header-badge">🎯 Accenture Assessment Preparation</div>
+      <h1>Accenture Cognitive Exam Games</h1>
+    </header>
+
+    <!-- 3-Card Grid View -->
+    <main class="games-grid">
+      <!-- Game 1: Directional Doors & Grid Maze -->
+      <a href="grid-maze/index.html" class="game-card">
+        <div class="card-top">
+          <div class="icon-box">🚪</div>
+          <div class="card-info">
+            <span class="category-badge">Game 1 • Spatial Memory</span>
+            <h2 class="game-title">Directional Doors & Grid Maze</h2>
+          </div>
+        </div>
+        <div class="btn-play">
+          Start Test <span>➔</span>
+        </div>
+      </a>
+
+      <!-- Game 2: Pathfinder Logic (Duran Mage) -->
+      <a href="motion-flow/index.html" class="game-card">
+        <div class="card-top">
+          <div class="icon-box">🚀</div>
+          <div class="card-info">
+            <span class="category-badge">Game 2 • Pathfinder Planning</span>
+            <h2 class="game-title">Pathfinder Logic (Duran Mage)</h2>
+          </div>
+        </div>
+        <div class="btn-play">
+          Start Test <span>➔</span>
+        </div>
+      </a>
+
+      <!-- Game 3: Math Order Challenge -->
+      <a href="math-order/index.html" class="game-card">
+        <div class="card-top">
+          <div class="icon-box">🔢</div>
+          <div class="card-info">
+            <span class="category-badge">Game 3 • Quantitative Speed</span>
+            <h2 class="game-title">Math Order Challenge</h2>
+          </div>
+        </div>
+        <div class="btn-play">
+          Start Test <span>➔</span>
+        </div>
+      </a>
+    </main>
+
+    <!-- Developer Signature Footer -->
+    <footer>
+      <div class="dev-badge">
+        <span>👨‍💻</span> Developer: <a href="https://github.com/Dharamraj82" target="_blank" rel="noopener noreferrer">Dharamraj Pd Yadav</a>
+      </div>
+      <p class="contribute-note">
+        💡 Suggest new changes & create your pull request on <a href="https://github.com/Dharamraj82" target="_blank" rel="noopener noreferrer">GitHub</a>.
+      </p>
+    </footer>
+  </div>
+</body>
+</html>

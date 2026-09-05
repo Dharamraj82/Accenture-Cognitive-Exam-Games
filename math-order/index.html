@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Math Order Challenge - Accenture Cognitive Assessment</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Top Global Header -->
+    <header class="assessment-header">
+      <div class="header-left">
+        <span class="brand-logo">accenture</span>
+        <span class="header-sep">|</span>
+        <span class="assessment-name">Cognitive Assessment: Math Order</span>
+      </div>
+      <div class="header-right">
+        <a href="../index.html" class="nav-btn" title="Back to Games Portal">
+          <span>🏠</span> Home
+        </a>
+        <button id="btn-sound" class="icon-btn-header" title="Toggle Sound (M)" aria-label="Toggle Sound">
+          <span id="sound-icon">🔊</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Game Container -->
+    <main class="main-container">
+
+      <!-- SCREEN 1: START SCREEN -->
+      <section id="screen-start" class="game-card start-card">
+        <h1 class="card-title">Math Order Challenge</h1>
+        <p class="card-subtitle">
+          Evaluate mental math expressions & click the circles in the correct order before the timer expires!
+        </p>
+
+        <!-- Test Configuration Options -->
+        <div class="test-config-box">
+          <!-- 1. Ordering Direction -->
+          <div class="config-row">
+            <span class="config-label">Sorting Order:</span>
+            <div class="config-pills" id="opt-order-group">
+              <button type="button" class="cfg-pill active" data-order="desc">HIGH → LOW</button>
+              <button type="button" class="cfg-pill" data-order="asc">LOW → HIGH</button>
+              <button type="button" class="cfg-pill" data-order="mixed">Mixed 🔀</button>
+            </div>
+          </div>
+
+          <!-- 2. Math Problem Type -->
+          <div class="config-row">
+            <span class="config-label">Math Types:</span>
+            <div class="config-pills" id="opt-math-group">
+              <button type="button" class="cfg-pill active" data-type="all">Mixed (All Types)</button>
+              <button type="button" class="cfg-pill" data-type="fractions">Fractions & Decimals</button>
+              <button type="button" class="cfg-pill" data-type="arithmetic">Basic Arithmetic</button>
+            </div>
+          </div>
+
+          <!-- 3. Timer Duration per Question -->
+          <div class="config-row">
+            <span class="config-label">Time Per Question:</span>
+            <div class="config-pills" id="opt-time-group">
+              <button type="button" class="cfg-pill" data-time="5">5s (Hard)</button>
+              <button type="button" class="cfg-pill active" data-time="10">10s (Default)</button>
+              <button type="button" class="cfg-pill" data-time="15">15s</button>
+              <button type="button" class="cfg-pill" data-time="20">20s</button>
+            </div>
+          </div>
+
+          <!-- 4. How many questions do you want to solve -->
+          <div class="config-row">
+            <span class="config-label">How many questions do you want to solve:</span>
+            <div class="config-count-container">
+              <div class="config-pills" id="opt-count-group">
+                <button type="button" class="cfg-pill" data-count="5">5 Questions</button>
+                <button type="button" class="cfg-pill" data-count="10">10 Questions</button>
+                <button type="button" class="cfg-pill" data-count="15">15 Questions</button>
+                <button type="button" class="cfg-pill active" data-count="24">24 (Default)</button>
+                <button type="button" class="cfg-pill" data-count="30">30 Questions</button>
+              </div>
+              <div class="custom-input-box">
+                <label for="custom-count-input" class="custom-input-label">Or enter exact number:</label>
+                <input type="number" id="custom-count-input" class="custom-number-field" min="1" max="100" placeholder="e.g. 20" value="24" />
+                <span class="custom-input-suffix">questions</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-action-row" style="justify-content: center; max-width: 280px; margin-top: 0.5rem;">
+          <button id="btn-start" class="btn btn-primary" style="width: 100%;">Start Test ➔</button>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: ACTIVE QUESTION SCREEN -->
+      <section id="screen-quiz" class="game-card quiz-card hidden">
+        <!-- Top Bar: Question Tracker & Score -->
+        <div class="quiz-header">
+          <div class="tracker-item">
+            Question: <span id="q-current">1</span> / <span id="q-total">24</span>
+          </div>
+          <div class="tracker-item">
+            Score: <span id="q-score">0</span>
+          </div>
+        </div>
+
+        <!-- 10-Second Countdown Progress Bar -->
+        <div class="progress-track">
+          <div id="progress-bar" class="progress-fill"></div>
+        </div>
+
+        <!-- Prompt Text -->
+        <div class="prompt-instruction">
+          Click circles from <strong>HIGH → LOW</strong>
+        </div>
+
+        <!-- 3 Math Circles Container -->
+        <div id="circles-grid" class="circles-row">
+          <!-- Dynamically populated circles -->
+        </div>
+
+        <!-- Feedback Alert Toast -->
+        <div id="feedback-alert" class="feedback-toast hidden">
+          <span id="feedback-icon">✓</span>
+          <span id="feedback-text">Correct!</span>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: TEST COMPLETED MODAL -->
+      <section id="screen-completed" class="game-card completed-card hidden">
+        <h1 class="card-title">Test Completed!</h1>
+        <div class="final-score-display">
+          Your Final Score: <span id="final-score-val" class="highlight-score">20</span> / <span id="final-total-val">24</span>
+        </div>
+
+        <div class="card-action-row">
+          <button id="btn-try-again" class="btn btn-primary">Try Again</button>
+          <button id="btn-view-solutions-end" class="btn btn-secondary">View Solutions</button>
+        </div>
+      </section>
+
+      <!-- SCREEN 4: QUESTION & SOLUTION SHEET -->
+      <section id="screen-solutions" class="game-card solutions-card hidden">
+        <h1 class="card-title">Question & Solution Sheet</h1>
+        <p class="solutions-subtitle" id="solutions-subtitle">
+          All questions with computed values and correct sorting order:
+        </p>
+
+        <!-- Scrollable Solution List -->
+        <div id="solutions-list" class="solutions-scroll-area">
+          <!-- Dynamically populated solution items -->
+        </div>
+
+        <div class="card-action-row">
+          <button id="btn-start-from-solution" class="btn btn-primary">Start Test Now</button>
+          <button id="btn-back-to-menu" class="btn btn-secondary">Back to Menu</button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Synchronized Developer Footer -->
+    <footer class="page-footer">
+      <div class="dev-badge">
+        <span>👨‍💻</span> Developer: <a href="https://github.com/Dharamraj82" target="_blank" rel="noopener noreferrer">Dharamraj Pd Yadav</a>
+      </div>
+      <p class="contribute-note" style="font-size:0.86rem; color:#64748b; margin-top:0.25rem;">
+        💡 Suggest new changes & create your pull request on <a href="https://github.com/Dharamraj82" target="_blank" rel="noopener noreferrer" style="color:#0070f3; font-weight:700; text-decoration:none;">GitHub</a>.
+      </p>
+    </footer>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
